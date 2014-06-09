@@ -1,5 +1,9 @@
 package com.jherenu.tweeter_reader
 
+import twitter4j.FilterQuery
+import twitter4j.TwitterStreamFactory
+import twitter4j.UserStreamAdapter
+
 class TweeterStreamAdapter {
 
     def startReading() {
@@ -9,8 +13,6 @@ class TweeterStreamAdapter {
                     println "Count: ${counter++}"
                     tweetsCounter++
                     println "Tweets Counter: $st.text"
-
-                    def http = new HTTPBuilder()
 
                     if(tweetsCounter > maxTweets) {
                         stream.cleanUp()
