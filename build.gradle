@@ -1,8 +1,11 @@
 apply plugin: 'groovy'
 apply plugin: 'idea'
+apply plugin: 'application'
 
 sourceCompatibility = 1.5
 version = '1.0'
+
+mainClassName = "com.jherenu.twitter_reader.Main"
 
 repositories {
     mavenCentral()

@@ -1,12 +1,14 @@
 package com.jherenu.twitter_reader
 
 import twitter4j.StatusJSONImpl
-//import uk.ac.wlv.sentistrength.*
+import uk.ac.wlv.sentistrength.SentiStrength
 
 class TweetDataFactory {
 
+    def sentiStrength
+
     TweetDataFactory() {
-//        SentiStrength sentiStrength = new SentiStrength()
+        this.sentiStrength = new SentiStrength()
     }
 
     def createFromMap(StatusJSONImpl tweetJSON) {
@@ -27,10 +29,10 @@ class TweetDataFactory {
             it.userFriendsCount = tweetJSON.user?.friendsCount
             it.strength = this.calculateStrength(it.text)
         }
-        return tweetJSON
+        return tweetDataToAnalyze
     }
 
     def calculateStrength(String text) {
-
+        true
     }
 }
