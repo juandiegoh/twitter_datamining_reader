@@ -1,4 +1,4 @@
-package com.jherenu.tweeter_reader
+package com.jherenu.twitter_reader
 
 import twitter4j.FilterQuery
 import twitter4j.TwitterStreamFactory
@@ -6,7 +6,7 @@ import twitter4j.UserStreamAdapter
 
 class TwitterStreamReader {
 
-    def MAX_TWEETS = 10
+    def MAX_TWEETS = 5
 
     def stream
     def tweets = []

@@ -1,4 +1,4 @@
-package com.jherenu.tweeter_reader
+package com.jherenu.twitter_reader
 
 class Main {
     static main(args) {
@@ -12,6 +12,9 @@ class Main {
 
         twitterStreamReader.stopConsumer()
 
-        println twitterStreamReader.getResult()
+        def tweetDataFactory = new TweetDataFactory()
+
+        def results = twitterStreamReader.getResult()
+        def tweetDataCollection = results.collect { tweetDataFactory.createFromMap(it) }
     }
 }
