@@ -14,5 +14,15 @@ class TweetDataToAnalyze {
     long userId
     int userFollowersCount
     int userFriendsCount
-    def strength
+    SentiValue strength
+
+    static String titleRow() {
+        return "createdAt, favoriteCount, favorited, latitude, longitude, id, lang, country, countryCode, " +
+                "text, userId, userFollowersCount, userFriendsCount, strength"
+    }
+
+    String toRow() {
+        return "${createdAt}, ${favoriteCount}, ${favorited}, ${latitude}, ${longitude},${id}, ${lang}, ${country}, " +
+                "${countryCode}, ${text}, ${userId}, ${userFollowersCount},${userFriendsCount}, ${strength}"
+    }
 }

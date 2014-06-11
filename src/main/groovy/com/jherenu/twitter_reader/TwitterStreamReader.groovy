@@ -6,15 +6,16 @@ import twitter4j.UserStreamAdapter
 
 class TwitterStreamReader {
 
-    def MAX_TWEETS = 5
-
     def stream
     def tweets = []
     def tweetsCounter = 0
-    def counter = 0
+    def keywords
+    def maxTweets
 
-    TwitterStreamReader() {
+    TwitterStreamReader(keywords, maxTweets) {
         this.stream = new TwitterStreamFactory().instance
+        this.keywords = keywords
+        this.maxTweets = maxTweets
     }
 
     def startConsumer() {
@@ -31,7 +32,7 @@ class TwitterStreamReader {
         stream.addListener(listener)
 
         FilterQuery filter = new FilterQuery();
-        String[] keywordsArray = ['san antonio spurs'];
+        String[] keywordsArray = [keywords];
         String[] languages = ['en']
         filter.language(languages)
         filter.track(keywordsArray);
@@ -40,7 +41,7 @@ class TwitterStreamReader {
     }
 
     boolean keepReading() {
-        return tweets.size() < MAX_TWEETS
+        return tweets.size() < this.maxTweets
     }
 
     def stopConsumer() {

@@ -5,10 +5,10 @@ import uk.ac.wlv.sentistrength.SentiStrength
 
 class TweetDataFactory {
 
-    def sentiStrength
+    def keywords
 
-    TweetDataFactory() {
-        this.sentiStrength = new SentiStrength()
+    TweetDataFactory(keywords) {
+        this.keywords = keywords.replace(' ',',')
     }
 
     def createFromMap(StatusJSONImpl tweetJSON) {
@@ -23,7 +23,7 @@ class TweetDataFactory {
             it.lang = tweetJSON.lang
             it.country = tweetJSON.place?.country
             it.countryCode = tweetJSON.place?.countryCode
-            it.text = tweetJSON.text
+            it.text = tweetJSON.text.replace('\n',' ').replace(',','')
             it.userId = tweetJSON.user?.id
             it.userFollowersCount = tweetJSON.user?.followersCount
             it.userFriendsCount = tweetJSON.user?.friendsCount
@@ -33,6 +33,25 @@ class TweetDataFactory {
     }
 
     def calculateStrength(String text) {
-        true
+        return calculateSentiValue(keywords, text)
+    }
+
+    def SentiValue calculateSentiValue(String keywords, String text) {
+        def (int positive, int negative) = calculatePositiveAndNegativeValue(keywords, text)
+        int result = positive + negative
+        return result == 0 ? SentiValue.NEUTRAL : result > 0 ? SentiValue.POSITIVE : SentiValue.NEGATIVE
+    }
+
+    def calculatePositiveAndNegativeValue(String keywords, String text) {
+        SentiStrength sentiStrength = new SentiStrength()
+
+        String[] ssthInitialisationAndText = ["sentidata", "/Users/jherenu/Documents/SentStrength_Data/", "keywords", keywords, "explain"]
+        sentiStrength.initialise(ssthInitialisationAndText)
+
+        String result = sentiStrength.computeSentimentScores(text)
+        def tokens = result.tokenize(' ')
+        def sentiStrings = tokens.subList(0,2)
+        def sentiNumbers = sentiStrings.collect { Integer.valueOf(it) }
+        return sentiNumbers
     }
 }
