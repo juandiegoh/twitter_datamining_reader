@@ -3,7 +3,7 @@ package com.jherenu.twitter_reader
 class TweetDataToAnalyze {
     Date createdAt
     int favoriteCount
-    boolean favorited
+    int retweetCount
     Number latitude
     Number longitude
     String id
@@ -17,12 +17,12 @@ class TweetDataToAnalyze {
     SentiValue strength
 
     static String titleRow() {
-        return "createdAt, favoriteCount, favorited, latitude, longitude, id, lang, country, countryCode, " +
+        return "createdAt, favoriteCount, retweetCount, latitude, longitude, id, lang, country, countryCode, " +
                 "text, userId, userFollowersCount, userFriendsCount, strength"
     }
 
     String toRow() {
-        return "${createdAt}, ${favoriteCount}, ${favorited}, ${latitude}, ${longitude},${id}, ${lang}, ${country}, " +
+        return "${createdAt}, ${favoriteCount}, ${retweetCount}, ${latitude}, ${longitude},${id}, ${lang}, ${country}, " +
                 "${countryCode}, ${text}, ${userId}, ${userFollowersCount},${userFriendsCount}, ${strength}"
     }
 }

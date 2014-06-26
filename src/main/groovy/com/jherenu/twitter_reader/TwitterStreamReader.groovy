@@ -7,24 +7,22 @@ import twitter4j.UserStreamAdapter
 class TwitterStreamReader {
 
     def stream
-    def tweets = []
+    def queue
     def tweetsCounter = 0
     def keywords
-    def maxTweets
 
-    TwitterStreamReader(keywords, maxTweets) {
+    TwitterStreamReader(keywords, queue) {
         this.stream = new TwitterStreamFactory().instance
         this.keywords = keywords
-        this.maxTweets = maxTweets
+        this.queue = queue
     }
 
     def startConsumer() {
         def listener = [
                 onStatus: { st ->
                     println "Count: ${tweetsCounter++}"
-                    println "Tweets Counter: $st.text"
-                    tweets.add(st)
-                },//"$st.user.screenName: $st.text" },
+                    queue.put(st)
+                },
                 onException: { ex -> ex.printStackTrace() },
                 onDeletionNotice: { statusDeletionNotice -> },
                 onTrackLimitationNotice: { numberOfLimitedStatuses -> }
@@ -40,16 +38,8 @@ class TwitterStreamReader {
         stream.filter(filter);
     }
 
-    boolean keepReading() {
-        return tweets.size() < this.maxTweets
-    }
-
     def stopConsumer() {
         stream.cleanUp()
         stream.shutdown()
-    }
-
-    def getResult() {
-        return tweets
     }
 }

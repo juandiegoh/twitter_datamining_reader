@@ -1,22 +1,25 @@
 package com.jherenu.twitter_reader
 
-import twitter4j.StatusJSONImpl
-import uk.ac.wlv.sentistrength.SentiStrength
-
 class TweetDataFactory {
 
-    def keywords
+    SentiValueCalculator sentiValueCalculator
 
     TweetDataFactory(keywords) {
-        this.keywords = keywords.replace(' ',',')
+        this.sentiValueCalculator = new SentiValueCalculator(keywords)
     }
 
-    def createFromMap(StatusJSONImpl tweetJSON) {
+    def createFromMap(def tweetJSON) {
         TweetDataToAnalyze tweetDataToAnalyze = new TweetDataToAnalyze()
+
+        // Si es un retweet me interesa el tweet original
+        if(tweetJSON.retweetedStatus != null) {
+            tweetJSON = tweetJSON.retweetedStatus
+        }
+
         tweetDataToAnalyze.with {
             it.createdAt = tweetJSON.createdAt
             it.favoriteCount = tweetJSON.favoriteCount
-            it.favorited = tweetJSON.favorited
+            it.retweetCount = tweetJSON.retweetCount
             it.latitude = tweetJSON.geoLocation?.latitude
             it.longitude = tweetJSON.geoLocation?.longitude
             it.id = tweetJSON.id.toString()
@@ -32,26 +35,7 @@ class TweetDataFactory {
         return tweetDataToAnalyze
     }
 
-    def calculateStrength(String text) {
-        return calculateSentiValue(keywords, text)
-    }
-
-    def SentiValue calculateSentiValue(String keywords, String text) {
-        def (int positive, int negative) = calculatePositiveAndNegativeValue(keywords, text)
-        int result = positive + negative
-        return result == 0 ? SentiValue.NEUTRAL : result > 0 ? SentiValue.POSITIVE : SentiValue.NEGATIVE
-    }
-
-    def calculatePositiveAndNegativeValue(String keywords, String text) {
-        SentiStrength sentiStrength = new SentiStrength()
-
-        String[] ssthInitialisationAndText = ["sentidata", "/Users/jherenu/Documents/SentStrength_Data/", "keywords", keywords, "explain"]
-        sentiStrength.initialise(ssthInitialisationAndText)
-
-        String result = sentiStrength.computeSentimentScores(text)
-        def tokens = result.tokenize(' ')
-        def sentiStrings = tokens.subList(0,2)
-        def sentiNumbers = sentiStrings.collect { Integer.valueOf(it) }
-        return sentiNumbers
+    SentiValue calculateStrength(String text) {
+        return this.sentiValueCalculator.calculateSentiValue(text)
     }
 }
