@@ -1,5 +1,7 @@
 package com.jherenu.twitter_reader
 
+import com.jherenu.twitter_reader.sentiment.SentiValue
+
 class TweetDataToAnalyze {
     Date createdAt
     int favoriteCount

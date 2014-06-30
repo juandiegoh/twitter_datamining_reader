@@ -1,17 +1,18 @@
 package com.jherenu.twitter_reader
 
+import com.jherenu.twitter_reader.sentiment.SentiValue
+import com.jherenu.twitter_reader.sentiment.SentiStrengthCalculator
 import org.junit.Before
 import org.junit.Test
-import uk.ac.wlv.sentistrength.SentiStrength
 
-class SentiStrengthTest {
+class SentiStrengthCalculatorTest {
 
     String keyword = 'dogs'
-    SentiValueCalculator sentiValueCalculator
+    SentiStrengthCalculator sentiValueCalculator
 
     @Before
     void init() {
-        this.sentiValueCalculator = new SentiValueCalculator(keyword)
+        this.sentiValueCalculator = new SentiStrengthCalculator(keyword)
     }
 
     @Test
@@ -26,5 +27,12 @@ class SentiStrengthTest {
 
         def result = this.sentiValueCalculator.calculateSentiValue('I hate dogs')
         assert result == SentiValue.NEGATIVE
+    }
+
+    @Test
+    void testSentiStrengthNeutral() {
+
+        def result = this.sentiValueCalculator.calculateSentiValue('Dogs are running')
+        assert result == SentiValue.NEUTRAL
     }
 }

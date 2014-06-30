@@ -1,11 +1,14 @@
 package com.jherenu.twitter_reader
 
+import com.jherenu.twitter_reader.sentiment.SentiValue
+import com.jherenu.twitter_reader.sentiment.SentiStrengthCalculator
+
 class TweetDataFactory {
 
-    SentiValueCalculator sentiValueCalculator
+    SentiStrengthCalculator sentiValueCalculator
 
     TweetDataFactory(keywords) {
-        this.sentiValueCalculator = new SentiValueCalculator(keywords)
+        this.sentiValueCalculator = new SentiStrengthCalculator(keywords)
     }
 
     def createFromMap(def tweetJSON) {

@@ -1,4 +1,4 @@
-package com.jherenu.twitter_reader
+package com.jherenu.twitter_reader.reader
 
 import twitter4j.FilterQuery
 import twitter4j.TwitterStreamFactory

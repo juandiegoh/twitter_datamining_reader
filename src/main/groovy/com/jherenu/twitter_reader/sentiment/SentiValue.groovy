@@ -1,4 +1,4 @@
-package com.jherenu.twitter_reader
+package com.jherenu.twitter_reader.sentiment
 
 public enum SentiValue {
 
