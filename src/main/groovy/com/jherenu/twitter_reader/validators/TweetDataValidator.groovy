@@ -14,7 +14,7 @@ class TweetDataValidator {
     Boolean validateTweetData(TweetDataToAnalyze tweetDataToAnalyze) {
         for(DataValidator dataValidator : validators) {
             if(!dataValidator.validate(tweetDataToAnalyze)) {
-                println "${dataValidator.toString()} is not valid for ${tweetDataToAnalyze.getText()}"
+                println "${dataValidator.toString()} is not valid for = '${tweetDataToAnalyze.getText()}'"
                 return false
             }
         }

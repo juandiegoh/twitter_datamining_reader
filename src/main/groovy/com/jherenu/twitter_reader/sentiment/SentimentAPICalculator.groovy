@@ -1,9 +1,10 @@
 package com.jherenu.twitter_reader.sentiment
 
+import com.jherenu.twitter_reader.utils.RetryUtil
 import groovyx.net.http.ContentType
 import groovyx.net.http.HTTPBuilder
 
-class SentimentAPICalculator implements SentimentCalculator{
+class SentimentAPICalculator implements SentimentCalculator {
 
     public static final String POSITIVE = 'pos'
     public static final String NEGATIVE = 'neg'
@@ -18,18 +19,20 @@ class SentimentAPICalculator implements SentimentCalculator{
 
         def response = null
         try {
-            HTTPBuilder httpBuilder = new HTTPBuilder( 'http://text-processing.com/api/sentiment/')
-            response = httpBuilder.post(
-                    body : [ text:text, language: 'english' ],
-                    requestContentType : ContentType.URLENC)
-        } catch(e) {
-            println 'Hubo un error al leer de la api de sentiment'
+            HTTPBuilder httpBuilder = new HTTPBuilder('http://text-processing.com/api/sentiment/')
+            response = RetryUtil.retry(3, 100) {
+                httpBuilder.post(
+                        body: [text: text, language: 'english'],
+                        requestContentType: ContentType.URLENC)
+            }
+        } catch (e) {
+            println "Hubo un error al leer de la api de sentiment ${e}"
         }
         return createSentiValueFromResponse(response)
     }
 
     private def createSentiValueFromResponse(response) {
-        if(response) {
+        if (response) {
             switch (response.label) {
                 case POSITIVE: return SentiValue.POSITIVE
                     break
@@ -39,7 +42,6 @@ class SentimentAPICalculator implements SentimentCalculator{
                     break
             }
         }
-
         return SentiValue.NEUTRAL
     }
 }

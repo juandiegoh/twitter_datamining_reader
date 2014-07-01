@@ -6,8 +6,8 @@ class SentiStrengthCalculator implements SentimentCalculator {
 
     String keywords
 
-    SentiStrengthCalculator(String keys) {
-        this.keywords = keys.replace(' ',',')
+    SentiStrengthCalculator(String keywords) {
+        this.keywords = keywords.replace(' ',',')
     }
 
     SentiValue calculateSentiValue(String text) {

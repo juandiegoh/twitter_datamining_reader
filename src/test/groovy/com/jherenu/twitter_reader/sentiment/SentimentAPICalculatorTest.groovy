@@ -1,4 +1,4 @@
-package com.jherenu.twitter_reader
+package com.jherenu.twitter_reader.sentiment
 
 import com.jherenu.twitter_reader.sentiment.SentiValue
 import com.jherenu.twitter_reader.sentiment.SentimentAPICalculator
