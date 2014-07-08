@@ -1,6 +1,6 @@
 package com.jherenu.twitter_reader.validators.data_validators
 
-import com.jherenu.twitter_reader.TweetDataConfiguration
+import com.jherenu.twitter_reader.configuration.TweetDataConfiguration
 import com.jherenu.twitter_reader.TweetDataToAnalyze
 
 class MandatoryLocationValidator implements DataValidator {
@@ -16,7 +16,6 @@ class MandatoryLocationValidator implements DataValidator {
         if(configuration.getMandatoryLocation()) {
             return dataWithCountry(data) || dataWithGeolocalization(data)
         }
-
         return true
     }
 

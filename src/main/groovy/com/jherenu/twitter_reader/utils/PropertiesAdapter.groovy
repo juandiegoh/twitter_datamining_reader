@@ -13,7 +13,9 @@ class PropertiesAdapter {
         this.config = new ConfigSlurper().parse(file.toURI().toURL())
     }
 
-    String getSentimentProperty() {
-        return this.config.sentiment_calculator
+    String getValueFromKey(String key) {
+        return this.config.get(key)
     }
+
+
 }

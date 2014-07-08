@@ -14,6 +14,11 @@ class PropertiesAdapterTest {
 
     @Test
     void testGetSentimentPropertyGetter() {
-        assert 'test_ok' == propertiesAdapter.getSentimentProperty()
+        assert 'test_ok' == propertiesAdapter.getValueFromKey('sentiment_calculator')
+    }
+
+    @Test
+    void testGetNumberPropertyGetter() {
+        assert 10000 == propertiesAdapter.getValueFromKey('size_of_data')
     }
 }

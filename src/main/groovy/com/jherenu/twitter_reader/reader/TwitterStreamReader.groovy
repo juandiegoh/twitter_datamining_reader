@@ -6,6 +6,7 @@ import twitter4j.UserStreamAdapter
 
 class TwitterStreamReader {
 
+    public static final double[][] WHOLE_WORLD = [[-180, -90], [180, 90]]
     def stream
     def queue
     def tweetsCounter = 0
@@ -30,10 +31,12 @@ class TwitterStreamReader {
         stream.addListener(listener)
 
         FilterQuery filter = new FilterQuery();
-        String[] keywordsArray = [keywords];
+//        String[] keywordsArray = [keywords];
+//        filter.track(keywordsArray);
         String[] languages = ['en']
         filter.language(languages)
-        filter.track(keywordsArray);
+        double[][] location = WHOLE_WORLD
+        filter.locations(location)
 
         stream.filter(filter);
     }

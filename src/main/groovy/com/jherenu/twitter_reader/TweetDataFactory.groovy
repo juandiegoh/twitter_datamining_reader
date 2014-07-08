@@ -1,17 +1,11 @@
 package com.jherenu.twitter_reader
 
-import com.jherenu.twitter_reader.sentiment.SentiValue
-import com.jherenu.twitter_reader.sentiment.SentimentCalculator
-
 class TweetDataFactory {
 
-    SentimentCalculator sentiValueCalculator
-
-    TweetDataFactory(SentimentCalculator sentimentCalculator) {
-        this.sentiValueCalculator = sentimentCalculator
+    TweetDataFactory() {
     }
 
-    def createFromMap(def tweetJSON) {
+    def createFromMapWithoutSentiment(def tweetJSON) {
         TweetDataToAnalyze tweetDataToAnalyze = new TweetDataToAnalyze()
 
         // Si es un retweet me interesa el tweet original
@@ -33,12 +27,7 @@ class TweetDataFactory {
             it.userId = tweetJSON.user?.id
             it.userFollowersCount = tweetJSON.user?.followersCount
             it.userFriendsCount = tweetJSON.user?.friendsCount
-            it.strength = this.calculateStrength(it.text)
         }
         return tweetDataToAnalyze
-    }
-
-    SentiValue calculateStrength(String text) {
-        return this.sentiValueCalculator.calculateSentiValue(text)
     }
 }

@@ -1,17 +1,9 @@
 package com.jherenu.twitter_reader.sentiment
 
-import com.jherenu.twitter_reader.utils.PropertiesAdapter
-
 class SentimentCalculatorFactory {
 
-    PropertiesAdapter propertiesAdapter
-
-    SentimentCalculatorFactory(PropertiesAdapter propertiesAdapter) {
-        this.propertiesAdapter = propertiesAdapter
-    }
-
-    SentimentCalculator createSentimentCalculator(String keywords) {
-        switch (propertiesAdapter.getSentimentProperty()) {
+    SentimentCalculator createSentimentCalculator(String sentiment, String keywords) {
+        switch (sentiment) {
             case 'SentimentAPI':
                 return new SentimentAPICalculator(keywords)
                 break
